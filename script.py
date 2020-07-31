@@ -46,13 +46,22 @@ def construct_hurricane(names=names, months=months, years=years, max_sustained_w
             })
     return hurricane_dict
 
-#print(construct_hurricane())
 
-def construct_by_year():
-    hurricane_dict = construct_hurricane()
-    current
+# organizes hurricanes by year
+
+
 # write your count affected areas function here:
-
+def count_areas_affected(areas_affected):
+    areas_affected_count = {}
+    for areas in areas_affected:
+        for area in areas:
+            if area in areas_affected_count:
+                count = areas_affected_count.pop(area)
+                count += 1
+                areas_affected_count.update({area: count})
+            else:
+                areas_affected_count.update({area: 1})
+    return areas_affected_count
 
 
 
@@ -60,15 +69,33 @@ def construct_by_year():
 
 
 # write your find most affected area function here:
+def area_most_effected(areas_affected_count):
+    biggest_count = 0
+    most_affected_area = ''
+    for area, count in areas_affected_count.items():
+        if count > biggest_count:
+            biggest_count = count
+            most_affected_area = f'{area} was hit the most at {count} times'
+    return most_affected_area
 
-
-
+print(area_most_effected(count_areas_affected(areas_affected)))
 
 
 
 
 # write your greatest number of deaths function here:
-
+def biggest_death_count(names, deaths):
+    hurricane_highest_death_count = ''
+    highest_death_count = 0
+    for i in range(0, len(names)):
+        if deaths[i] > highest_death_count:
+            hurricane_highest_death_count = names[i]
+            highest_death_count = deaths[i]
+    return f'hurricane {hurricane_highest_death_count} killed the most people with {highest_death_count} deaths'
+            
+print(biggest_death_count(names, deaths))
+    
+    
 
 
 
