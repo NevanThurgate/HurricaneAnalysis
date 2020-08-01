@@ -33,7 +33,7 @@ def return_damages(damages):
     return final_list
 
 # organize hurricanes into dictionaries with each lists' variables as keys
-def construct_hurricane(names=names, months=months, years=years, max_sustained_winds=max_sustained_winds, areas_affected=areas_affected, damages=return_damages(damages)):
+def construct_hurricane(names=names, months=months, years=years, max_sustained_winds=max_sustained_winds, areas_affected=areas_affected, damages=return_damages(damages), deaths=deaths):
     hurricane_dict = []
     for index in range(0, len(names)):
         hurricane_dict.append({
@@ -42,15 +42,13 @@ def construct_hurricane(names=names, months=months, years=years, max_sustained_w
             'year': years[index], 
             'maximum sustained winds': max_sustained_winds[index],
             'areas affected': areas_affected[index],
-            'damages': damages[index]
+            'damages': damages[index],
+            'deaths': deaths[index]
             })
     return hurricane_dict
 
 
-# organizes hurricanes by year
-
-
-# write your count affected areas function here:
+# creates a dictionary with areas on keys and how many times that area was affected as a value
 def count_areas_affected(areas_affected):
     areas_affected_count = {}
     for areas in areas_affected:
@@ -65,10 +63,7 @@ def count_areas_affected(areas_affected):
 
 
 
-
-
-
-# write your find most affected area function here:
+# returns a dictionary with areas as keys and how many times they've been hit as int values
 def area_most_effected(areas_affected_count):
     biggest_count = 0
     most_affected_area = ''
@@ -78,12 +73,10 @@ def area_most_effected(areas_affected_count):
             most_affected_area = f'{area} was hit the most at {count} times'
     return most_affected_area
 
-print(area_most_effected(count_areas_affected(areas_affected)))
 
 
 
-
-# write your greatest number of deaths function here:
+# returns a dictionary with the name of the hurricane with the highest death count as a key and the integer value of deaths as the value
 def biggest_death_count(names, deaths):
     hurricane_highest_death_count = ''
     highest_death_count = 0
@@ -91,31 +84,79 @@ def biggest_death_count(names, deaths):
         if deaths[i] > highest_death_count:
             hurricane_highest_death_count = names[i]
             highest_death_count = deaths[i]
-    return f'hurricane {hurricane_highest_death_count} killed the most people with {highest_death_count} deaths'
+    return f'Hurricane {hurricane_highest_death_count} killed the most people causing {highest_death_count} deaths.'
             
-print(biggest_death_count(names, deaths))
+
     
-    
+# organizes hurricanes into dictionary based on a mortality scale
+def mortality_ranked(hurricane_dict):
+    mortality_scale = {0: [],
+                       1: [],
+                       2: [],
+                       3: [],
+                       4: [],
+                       5: []}
+    for hurricane in hurricane_dict:
+        if hurricane['deaths'] == 0:
+            mortality_scale[0].append(hurricane)
+        elif hurricane['deaths'] <= 100:
+            mortality_scale[1].append(hurricane)
+        elif hurricane['deaths'] <= 500:
+            mortality_scale[2].append(hurricane)
+        elif hurricane['deaths'] <= 1000:
+            mortality_scale[3].append(hurricane)
+        elif hurricane['deaths'] <= 10000:
+            mortality_scale[4].append(hurricane)
+        elif hurricane['deaths'] > 10000:
+            mortality_scale[5].append(hurricane)
+    return mortality_scale
+
+
+
+        
+
+# prints a string with the hurricane that caused the most damages and what those damages cost
+def biggest_cost(names, damages):
+    hurricane_highest_damage_count = ''
+    highest_cost = 0
+    for i in range(0, len(names)):
+        if damages[i] == 'Damages not recorded':
+            pass
+        elif damages[i] > highest_cost:
+                hurricane_highest_damage_count = names[i]
+                highest_cost = damages[i]
+    return f'Hurricane {hurricane_highest_damage_count} caused the most damage at ${highest_cost}.'
+
+
+
+# ranks hurricane damage into 5 keys 
+def damage_ranked(hurricane_dict):
+    damage_scale = {0: [],
+                    1: [],
+                    2: [],
+                    3: [],
+                    4: [],
+                    5: []}
+    for hurricane in hurricane_dict:
+        if hurricane['damages'] == 'Damages not recorded':
+            continue
+        elif hurricane['damages'] == 0:
+            damage_scale[0].append(hurricane)
+        elif hurricane['damages'] <= 100000000:
+            damage_scale[1].append(hurricane)
+        elif hurricane['damages'] <= 1000000000:
+            damage_scale[2].append(hurricane)
+        elif hurricane['damages'] <= 10000000000:
+            damage_scale[3].append(hurricane)
+        elif hurricane['damages'] <= 50000000000:
+            damage_scale[4].append(hurricane)
+        elif hurricane['damages'] > 50000000000:
+            damage_scale[5].append(hurricane)
+    return damage_scale
 
 
 
 
 
 
-# write your catgeorize by mortality function here:
 
-
-
-
-
-
-
-# write your greatest damage function here:
-
-
-
-
-
-
-
-# write your catgeorize by damage function here:
